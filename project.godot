@@ -15,6 +15,10 @@ run/main_scene="uid://dj83v3vq3k7tn"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="uid://b1x2xgpxo3fr3"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/horror_toolkit/plugin.cfg")
+
 [input]
 
 forward={
