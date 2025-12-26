@@ -1,0 +1,444 @@
+[gd_scene load_steps=30 format=3 uid="uid://dj83v3vq3k7tn"]
+
+[ext_resource type="PackedScene" uid="uid://clkyy384dbwy" path="res://Demo/Character/Player/player.tscn" id="2_p0t1v"]
+[ext_resource type="Script" uid="uid://bsl1614iqu3vy" path="res://addons/horror_toolkit/dynamic_footsteps/dynamic_footsteps.gd" id="3_ekqei"]
+[ext_resource type="AudioStream" uid="uid://257kpfjw7gj5" path="res://Demo/Audio/FootStep.wav" id="4_0d1bh"]
+[ext_resource type="ArrayMesh" uid="uid://b6pjh41p514uk" path="res://Demo/Asstes/door_frame.obj" id="4_5q3lh"]
+[ext_resource type="ArrayMesh" uid="uid://dai7ih3me3qr6" path="res://Demo/Asstes/door.obj" id="4_l2mmh"]
+[ext_resource type="Material" uid="uid://bpenkouvqoa3r" path="res://Demo/Material/default.material" id="4_wganu"]
+[ext_resource type="Script" uid="uid://b41qyk7h2npkp" path="res://addons/horror_toolkit/torchlight/torchlight.gd" id="5_0d1bh"]
+[ext_resource type="Material" uid="uid://dyhu14y6isn23" path="res://Demo/Material/interactable.material" id="5_l2mmh"]
+[ext_resource type="Material" uid="uid://dsp0asexbs7bb" path="res://Demo/Material/interacting.mteerial.tres" id="7_wganu"]
+[ext_resource type="Script" uid="uid://br2sollrw2j43" path="res://addons/horror_toolkit/light_switch/light_switch.gd" id="9_0d1bh"]
+[ext_resource type="Script" uid="uid://c2kn3uqddqhcu" path="res://addons/horror_toolkit/door/door.gd" id="9_wganu"]
+[ext_resource type="ArrayMesh" uid="uid://c6f02kn8rfrar" path="res://Demo/Asstes/Fan.obj" id="10_5q3lh"]
+[ext_resource type="Script" uid="uid://b21htx2ho8lek" path="res://addons/horror_toolkit/fan_switch/fan_switch.gd" id="10_ekqei"]
+[ext_resource type="Script" uid="uid://8jj7mcig62s1" path="res://addons/horror_toolkit/item/item.gd" id="14_vme1s"]
+[ext_resource type="Script" uid="uid://cx1khxbp2a270" path="res://addons/horror_toolkit/random_sound/random_sound.gd" id="15_gji4c"]
+[ext_resource type="AudioStream" uid="uid://qcv81dgbhmp0" path="res://Demo/Audio/Raandom/Jump.wav" id="16_cs6cr"]
+[ext_resource type="AudioStream" uid="uid://7vsl4d437lxl" path="res://Demo/Audio/Raandom/Hit_Hurt4.wav" id="17_wixd1"]
+[ext_resource type="AudioStream" uid="uid://d0p1tpitgmly" path="res://Demo/Audio/Raandom/Blip_Select.wav" id="18_l0c46"]
+[ext_resource type="AudioStream" uid="uid://dvtb1o6l8efwq" path="res://Demo/Audio/Raandom/Pickup_Coin.wav" id="19_2vgjj"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5q3lh"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+energy_multiplier = 0.6
+
+[sub_resource type="Sky" id="Sky_ir06t"]
+sky_material = SubResource("ProceduralSkyMaterial_5q3lh")
+
+[sub_resource type="Environment" id="Environment_ekqei"]
+background_mode = 2
+sky = SubResource("Sky_ir06t")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5q3lh"]
+size = Vector3(1.2, 2.2, 0.05859375)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ir06t"]
+size = Vector3(1.2, 2.2, 0.05859375)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ir06t"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0d1bh"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_wganu"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_uggcn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oqw3b"]
+size = Vector3(3, 1, 3)
+
+[node name="Demo" type="Node"]
+
+[node name="Environment" type="Node3D" parent="."]
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(-0.820152, -0.5629257, 0.10230091, 0.013020401, 0.16039234, 0.98696744, -0.57199764, 0.8107953, -0.12421658, 0, 0, 0)
+light_energy = 0.05
+shadow_enabled = true
+directional_shadow_max_distance = 1.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_ekqei")
+
+[node name="Level" type="Node3D" parent="."]
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="Floor" type="CSGBox3D" parent="Level"]
+use_collision = true
+size = Vector3(100, 0.5, 100)
+material = ExtResource("4_wganu")
+
+[node name="Characters" type="Node3D" parent="."]
+
+[node name="Player" parent="Characters" instance=ExtResource("2_p0t1v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.491859, 0.25, -4.075737)
+
+[node name="Dynamic Footsteps" type="RayCast3D" parent="Characters/Player"]
+script = ExtResource("3_ekqei")
+Track_list = Array[AudioStream]([ExtResource("4_0d1bh")])
+Volume = -19.0
+metadata/_custom_type_script = "uid://bsl1614iqu3vy"
+
+[node name="Torchlight" type="SpotLight3D" parent="Characters/Player" node_paths=PackedStringArray("Player_Camera")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42178798, 0)
+script = ExtResource("5_0d1bh")
+Player_Camera = NodePath("../CameraPivot/CameraHolder/Camera")
+Torch_Action_name = "torch"
+metadata/_custom_type_script = "uid://b41qyk7h2npkp"
+
+[node name="InteractableAssets" type="Node3D" parent="."]
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="Doors" type="Node3D" parent="InteractableAssets"]
+
+[node name="Door_Normal" type="Area3D" parent="InteractableAssets/Doors" node_paths=PackedStringArray("Door")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.66965866, 0.26, 1)
+script = ExtResource("9_wganu")
+Door_type = 2
+Door = NodePath("DoorInteractable")
+Door_Open_Direction = Vector3(0, 90, 0)
+Door_speed = 0.5
+metadata/_custom_type_script = "uid://c2kn3uqddqhcu"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableAssets/Doors/Door_Normal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 1.1000001, 0.029296875)
+shape = SubResource("BoxShape3D_5q3lh")
+
+[node name="DoorFrame" type="MeshInstance3D" parent="InteractableAssets/Doors/Door_Normal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5999994, 0, 0)
+mesh = ExtResource("4_5q3lh")
+skeleton = NodePath("../DoorInteractable")
+surface_material_override/0 = ExtResource("5_l2mmh")
+
+[node name="DoorInteractable" type="AnimatableBody3D" parent="InteractableAssets/Doors/Door_Normal"]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="InteractableAssets/Doors/Door_Normal/DoorInteractable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5999999, 1.1000001, 0.029296875)
+shape = SubResource("BoxShape3D_ir06t")
+
+[node name="Door" type="MeshInstance3D" parent="InteractableAssets/Doors/Door_Normal/DoorInteractable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5999994, 0, 0)
+mesh = ExtResource("4_l2mmh")
+skeleton = NodePath("../../../../..")
+surface_material_override/0 = ExtResource("5_l2mmh")
+
+[node name="Door_Normal_Locked" type="Area3D" parent="InteractableAssets/Doors" node_paths=PackedStringArray("Door")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 3.6696587, 0.26, 1)
+script = ExtResource("9_wganu")
+Door_type = 2
+enabled = false
+Door = NodePath("DoorInteractable")
+Door_Open_Direction = Vector3(0, 90, 0)
+Door_speed = 0.5
+metadata/_custom_type_script = "uid://c2kn3uqddqhcu"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableAssets/Doors/Door_Normal_Locked"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 1.1000001, 0.029296875)
+shape = SubResource("BoxShape3D_5q3lh")
+
+[node name="DoorFrame" type="MeshInstance3D" parent="InteractableAssets/Doors/Door_Normal_Locked"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5999994, 0, 0)
+mesh = ExtResource("4_5q3lh")
+skeleton = NodePath("../DoorInteractable")
+surface_material_override/0 = ExtResource("5_l2mmh")
+
+[node name="DoorInteractable" type="AnimatableBody3D" parent="InteractableAssets/Doors/Door_Normal_Locked"]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="InteractableAssets/Doors/Door_Normal_Locked/DoorInteractable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5999999, 1.1000001, 0.029296875)
+shape = SubResource("BoxShape3D_ir06t")
+
+[node name="Door" type="MeshInstance3D" parent="InteractableAssets/Doors/Door_Normal_Locked/DoorInteractable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5999994, 0, 0)
+mesh = ExtResource("4_l2mmh")
+skeleton = NodePath("../../../../..")
+surface_material_override/0 = ExtResource("5_l2mmh")
+
+[node name="Door_Slide_Y_axis" type="Area3D" parent="InteractableAssets/Doors" node_paths=PackedStringArray("Door")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -2.3303413, 0.26, 1)
+script = ExtResource("9_wganu")
+Door_type = 1
+Door = NodePath("DoorInteractable")
+Custom_Door_Open_Direction = Vector3(1.2, 0, 0)
+Custom_Door_speed = 0.5
+metadata/_custom_type_script = "uid://c2kn3uqddqhcu"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableAssets/Doors/Door_Slide_Y_axis"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 1.1000001, 0.029296875)
+shape = SubResource("BoxShape3D_5q3lh")
+
+[node name="DoorFrame" type="MeshInstance3D" parent="InteractableAssets/Doors/Door_Slide_Y_axis"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5999994, 0, 0)
+mesh = ExtResource("4_5q3lh")
+skeleton = NodePath("../DoorInteractable")
+surface_material_override/0 = ExtResource("5_l2mmh")
+
+[node name="DoorInteractable" type="AnimatableBody3D" parent="InteractableAssets/Doors/Door_Slide_Y_axis"]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="InteractableAssets/Doors/Door_Slide_Y_axis/DoorInteractable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5999999, 1.1000001, 0.029296875)
+shape = SubResource("BoxShape3D_ir06t")
+
+[node name="Door" type="MeshInstance3D" parent="InteractableAssets/Doors/Door_Slide_Y_axis/DoorInteractable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5999994, 0, 0)
+mesh = ExtResource("4_l2mmh")
+skeleton = NodePath("../../../../..")
+surface_material_override/0 = ExtResource("5_l2mmh")
+
+[node name="Door_Slide_X_axis" type="Area3D" parent="InteractableAssets/Doors" node_paths=PackedStringArray("Door")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -5.3303413, 0.26, 1)
+script = ExtResource("9_wganu")
+Door_type = 1
+Door = NodePath("DoorInteractable")
+Custom_Door_Open_Direction = Vector3(0, -2.2, 0)
+Custom_Door_speed = 0.5
+metadata/_custom_type_script = "uid://c2kn3uqddqhcu"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableAssets/Doors/Door_Slide_X_axis"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 1.1000001, 0.029296875)
+shape = SubResource("BoxShape3D_5q3lh")
+
+[node name="DoorFrame" type="MeshInstance3D" parent="InteractableAssets/Doors/Door_Slide_X_axis"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5999994, 0, 0)
+mesh = ExtResource("4_5q3lh")
+skeleton = NodePath("../../Door_Slide_Y_axis/DoorInteractable")
+surface_material_override/0 = ExtResource("5_l2mmh")
+
+[node name="DoorInteractable" type="AnimatableBody3D" parent="InteractableAssets/Doors/Door_Slide_X_axis"]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="InteractableAssets/Doors/Door_Slide_X_axis/DoorInteractable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5999999, 1.1000001, 0.029296875)
+shape = SubResource("BoxShape3D_ir06t")
+
+[node name="Door" type="MeshInstance3D" parent="InteractableAssets/Doors/Door_Slide_X_axis/DoorInteractable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5999994, 0, 0)
+mesh = ExtResource("4_l2mmh")
+skeleton = NodePath("../../../../..")
+surface_material_override/0 = ExtResource("5_l2mmh")
+
+[node name="Fan" type="Node3D" parent="InteractableAssets"]
+
+[node name="Fan Switch" type="Area3D" parent="InteractableAssets/Fan" node_paths=PackedStringArray("fan_source")]
+transform = Transform3D(-1.5, 0, 1.3113416e-07, 0, 1.5, 0, -1.3113416e-07, 0, -1.5, -6.1814747, 0, -9)
+script = ExtResource("10_ekqei")
+fan_source = NodePath("Fan")
+rotation_speed = 0.5
+metadata/_custom_type_script = "uid://b21htx2ho8lek"
+
+[node name="Wall2" type="MeshInstance3D" parent="InteractableAssets/Fan/Fan Switch"]
+transform = Transform3D(-2.185569e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.185569e-08, 0, 0.42, 0)
+mesh = SubResource("BoxMesh_ir06t")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = ExtResource("5_l2mmh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableAssets/Fan/Fan Switch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6666667, 0)
+shape = SubResource("BoxShape3D_0d1bh")
+
+[node name="Fan" type="MeshInstance3D" parent="InteractableAssets/Fan/Fan Switch"]
+transform = Transform3D(-0.6666667, 0, -5.828185e-08, 0, 0.6666667, 0, 5.828185e-08, 0, -0.6666667, 0, 1.7, 3.928)
+mesh = ExtResource("10_5q3lh")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = ExtResource("7_wganu")
+
+[node name="Light" type="Node3D" parent="InteractableAssets"]
+
+[node name="Normal_Light" type="Area3D" parent="InteractableAssets/Light" node_paths=PackedStringArray("light_source")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -0.18147469, 0.26, -9)
+script = ExtResource("9_0d1bh")
+light_source = NodePath("CSGBox3D/Bulb")
+active = false
+metadata/_custom_type_script = "uid://br2sollrw2j43"
+
+[node name="Cube" type="MeshInstance3D" parent="InteractableAssets/Light/Normal_Light"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.25, 0)
+mesh = SubResource("BoxMesh_wganu")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = ExtResource("5_l2mmh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableAssets/Light/Normal_Light"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_0d1bh")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="InteractableAssets/Light/Normal_Light"]
+transform = Transform3D(0.6666667, 0, 0, 0, -0.39638948, 0.5360223, 0, -0.53602225, -0.39638948, -0.3442645, 1.8266667, -4.102)
+material = ExtResource("7_wganu")
+
+[node name="Bulb" type="SpotLight3D" parent="InteractableAssets/Light/Normal_Light/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 8.940697e-08, 0, -2.9802322e-08, 0.99999976, 0, 0, 0)
+light_energy = 10.0
+spot_range = 6.956214
+spot_angle = 37.76943
+
+[node name="Normal_Light_Locked" type="Area3D" parent="InteractableAssets/Light" node_paths=PackedStringArray("light_source")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 2.6696587, 0.26, -9)
+script = ExtResource("9_0d1bh")
+light_source = NodePath("CSGBox3D/Bulb")
+enabled = false
+active = false
+metadata/_custom_type_script = "uid://br2sollrw2j43"
+
+[node name="Cube" type="MeshInstance3D" parent="InteractableAssets/Light/Normal_Light_Locked"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.25, 0)
+mesh = SubResource("BoxMesh_wganu")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = ExtResource("5_l2mmh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableAssets/Light/Normal_Light_Locked"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_0d1bh")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="InteractableAssets/Light/Normal_Light_Locked"]
+transform = Transform3D(0.6666667, 0, 0, 0, -0.39638948, 0.5360223, 0, -0.53602225, -0.39638948, -0.3442645, 1.8266667, -4.102)
+material = ExtResource("7_wganu")
+
+[node name="Bulb" type="SpotLight3D" parent="InteractableAssets/Light/Normal_Light_Locked/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 8.940697e-08, 0, -2.9802322e-08, 0.99999976, 0, 0, 0)
+light_energy = 10.0
+spot_range = 6.956214
+spot_angle = 37.76943
+
+[node name="Blinking_Light" type="Area3D" parent="InteractableAssets/Light" node_paths=PackedStringArray("light_source")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -3.1814747, 0.26, -9)
+script = ExtResource("9_0d1bh")
+light_source = NodePath("CSGBox3D/Bulb")
+active = false
+flicker_enabled = true
+flicker_min_energy = 0.1
+flicker_max_energy = 15.0
+metadata/_custom_type_script = "uid://br2sollrw2j43"
+
+[node name="Cube" type="MeshInstance3D" parent="InteractableAssets/Light/Blinking_Light"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.25, 0)
+mesh = SubResource("BoxMesh_wganu")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = ExtResource("5_l2mmh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableAssets/Light/Blinking_Light"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_0d1bh")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="InteractableAssets/Light/Blinking_Light"]
+transform = Transform3D(0.6666667, 0, 0, 0, -0.39638948, 0.5360223, 0, -0.53602225, -0.39638948, -0.3442645, 1.8266667, -4.102)
+material = ExtResource("7_wganu")
+
+[node name="Bulb" type="SpotLight3D" parent="InteractableAssets/Light/Blinking_Light/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 8.940697e-08, 0, -2.9802322e-08, 0.99999976, 0, 0, 0)
+light_energy = 10.0
+spot_range = 6.956214
+spot_angle = 37.76943
+
+[node name="Key" type="Node3D" parent="InteractableAssets"]
+
+[node name="Item_Key" type="Area3D" parent="InteractableAssets/Key" node_paths=PackedStringArray("Key_unlock")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.3668447, 0, 1.3100328)
+script = ExtResource("14_vme1s")
+Item_type = 1
+Key_unlock = NodePath("../../Doors/Door_Normal_Locked")
+metadata/_custom_type_script = "uid://8jj7mcig62s1"
+
+[node name="Cube2" type="MeshInstance3D" parent="InteractableAssets/Key/Item_Key"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7477958, 0)
+mesh = SubResource("BoxMesh_wganu")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = ExtResource("5_l2mmh")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="InteractableAssets/Key/Item_Key"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7457684, 0)
+shape = SubResource("BoxShape3D_0d1bh")
+
+[node name="Audio_Manager" type="Node3D" parent="InteractableAssets"]
+
+[node name="Random Sounds" type="Area3D" parent="InteractableAssets/Audio_Manager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.707977, 0, -3.2067466)
+script = ExtResource("15_gji4c")
+Active = true
+Track_randomizer = true
+Track_list = Array[AudioStream]([ExtResource("16_cs6cr"), ExtResource("17_wixd1"), ExtResource("18_l0c46"), ExtResource("19_2vgjj")])
+metadata/_custom_type_script = "uid://cx1khxbp2a270"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="InteractableAssets/Audio_Manager/Random Sounds"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0.26, 0)
+mesh = SubResource("PlaneMesh_uggcn")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = ExtResource("7_wganu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableAssets/Audio_Manager/Random Sounds"]
+shape = SubResource("BoxShape3D_oqw3b")
+
+[node name="Information_Label" type="Node3D" parent="."]
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="Info1" type="Label3D" parent="Information_Label"]
+transform = Transform3D(-1, 8.742277e-08, 3.8213705e-15, 0, -4.3711385e-08, 0.99999994, 8.742278e-08, 0.99999994, 4.3711385e-08, -0.18118763, 0.26, 0)
+text = "Unlocked  normal Door, 
+opens andcloses via Y axis
+rotation.Can also be inverted"
+
+[node name="Info2" type="Label3D" parent="Information_Label"]
+transform = Transform3D(-1, 8.742277e-08, 3.8213705e-15, 0, -4.3711385e-08, 0.99999994, 8.742278e-08, 0.99999994, 4.3711385e-08, -3.2024603, 0.26, 0)
+text = "Unlocked Custom Door, 
+opens and
+closes via X axis sliding.
+Can also be inverted"
+
+[node name="Info3" type="Label3D" parent="Information_Label"]
+transform = Transform3D(-1, 8.742277e-08, 3.8213705e-15, 0, -4.3711385e-08, 0.99999994, 8.742278e-08, 0.99999994, 4.3711385e-08, -6.209937, 0.26, 0)
+text = "Unlocked Custom Door, 
+opens and
+closes via Y axis sliding.
+Can also be inverted"
+
+[node name="Info4" type="Label3D" parent="Information_Label"]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.9999999, 0, -0.99999994, -4.3711385e-08, -0.18118763, 0.26, -7.7542567)
+text = "Interactable  light 
+trigger with no flickering"
+
+[node name="Info5" type="Label3D" parent="Information_Label"]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.9999999, 0, -0.99999994, -4.3711385e-08, -3.173583, 0.26, -7.7542567)
+text = "Interactable  light 
+trigger with flickering"
+
+[node name="Info6" type="Label3D" parent="Information_Label"]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.9999999, 0, -0.99999994, -4.3711385e-08, -6.1826735, 0.26, -7.7542567)
+text = "Interactable  fan 
+trigger"
+
+[node name="Info7" type="Label3D" parent="Information_Label"]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.9999999, 0, -0.99999994, -4.3711385e-08, 2.7078667, 0.26, -7.7542567)
+text = "Interactable  light 
+trigger with no flickering
+and interactive disabled"
+
+[node name="Info8" type="Label3D" parent="Information_Label"]
+transform = Transform3D(-1, 8.742277e-08, 3.8213705e-15, 0, -4.3711385e-08, 0.99999994, 8.742278e-08, 0.99999994, 4.3711385e-08, 2.7681112, 0.26, 0)
+text = "Locked  normal Door, 
+opens andcloses via Y axis
+rotation.Can also be inverted"
+
+[node name="Info9" type="Label3D" parent="Information_Label"]
+transform = Transform3D(-1, 8.742277e-08, 3.8213705e-15, 0, -4.3711385e-08, 0.99999994, 8.742278e-08, 0.99999994, 4.3711385e-08, 5.3549595, 0.26, 0)
+text = "Item node used as a key 
+object to unlock door.
+Automatically delees 
+after use."
+
+[node name="Info10" type="Label3D" parent="Information_Label"]
+transform = Transform3D(-1, 0, 8.742277e-08, 0, 0.9999999, 0, -8.742278e-08, 0, -0.9999999, 5.3549595, 1.9773936, 1.2334876)
+text = "Item node can also be used as
+batteries for the torch node"
+
+[node name="Info11" type="Label3D" parent="Information_Label"]
+transform = Transform3D(-4.3711385e-08, 0.9999999, 4.3711385e-08, 0, -4.3711385e-08, 0.9999999, 0.9999999, 4.3711385e-08, 1.9106853e-15, 6.428481, 0.26, -3.2067475)
+text = "Random Sound node designates an
+area whererandom tracks will be played 
+upon collision.Itcan be used 
+for floor creaks or tension tracks
+"

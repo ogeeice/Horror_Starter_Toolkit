@@ -1,0 +1,14 @@
+[gd_resource type="Environment" format=3 uid="uid://dub65tomy8ssn"]
+
+[resource]
+background_mode = 1
+tonemap_mode = 3
+tonemap_exposure = 0.6
+tonemap_white = 2.0
+fog_enabled = true
+fog_light_color = Color(0.85979897, 0.85979897, 0.85979897, 1)
+fog_light_energy = 0.01
+fog_density = 0.15
+fog_height_density = -1.1429
+adjustment_enabled = true
+adjustment_brightness = 1.5

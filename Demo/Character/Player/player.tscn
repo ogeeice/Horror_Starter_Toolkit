@@ -1,0 +1,56 @@
+[gd_scene load_steps=10 format=3 uid="uid://clkyy384dbwy"]
+
+[ext_resource type="Script" uid="uid://ckl3pqc3elm8d" path="res://Demo/Character/Player/player.gd" id="1_vtle1"]
+[ext_resource type="PackedScene" uid="uid://f24dtlbjueam" path="res://Demo/Character/Player/Camera/CameraPivot.tscn" id="2_od3ui"]
+[ext_resource type="Script" uid="uid://cd6odwmx5uxhn" path="res://Demo/Character/CharacterStateMachine/StateMachine.gd" id="3_00tjw"]
+[ext_resource type="Script" uid="uid://cp3hvyvsoy055" path="res://Demo/Character/Player/Statemanager/idle.gd" id="4_x3vf3"]
+[ext_resource type="Script" uid="uid://b62b3ugxsce1b" path="res://Demo/Character/Player/Statemanager/move.gd" id="5_apopc"]
+[ext_resource type="Script" uid="uid://bg2nwikpv4plp" path="res://Demo/Character/Player/Statemanager/jump.gd" id="6_5htga"]
+[ext_resource type="Script" uid="uid://bjtvxfeixd15c" path="res://Demo/Character/Player/Statemanager/fall.gd" id="7_p5o4e"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7bdkn"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qofva"]
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+script = ExtResource("1_vtle1")
+speed = 3.5
+metadata/_edit_group_ = true
+
+[node name="Display_mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_7bdkn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_qofva")
+
+[node name="Camera_Anchor" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="CameraPivot" parent="." node_paths=PackedStringArray("Anchor") instance=ExtResource("2_od3ui")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+Anchor = NodePath("../Camera_Anchor")
+head_bob_frequency = 2.5
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_00tjw")
+initial_state = NodePath("Idle")
+metadata/_custom_type_script = "uid://cd6odwmx5uxhn"
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("4_x3vf3")
+metadata/_custom_type_script = "uid://bwnc1pmhxcv1u"
+
+[node name="move" type="Node" parent="StateMachine"]
+script = ExtResource("5_apopc")
+metadata/_custom_type_script = "uid://bwnc1pmhxcv1u"
+
+[node name="jump" type="Node" parent="StateMachine"]
+script = ExtResource("6_5htga")
+metadata/_custom_type_script = "uid://bwnc1pmhxcv1u"
+
+[node name="fall" type="Node" parent="StateMachine"]
+script = ExtResource("7_p5o4e")
+metadata/_custom_type_script = "uid://bwnc1pmhxcv1u"

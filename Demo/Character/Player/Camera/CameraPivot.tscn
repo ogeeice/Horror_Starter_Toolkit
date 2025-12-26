@@ -1,0 +1,94 @@
+[gd_scene load_steps=6 format=3 uid="uid://f24dtlbjueam"]
+
+[ext_resource type="Script" uid="uid://bniyec4de2o7m" path="res://Demo/Character/Player/Camera/camera_pivot.gd" id="1_xdmex"]
+[ext_resource type="Texture2D" uid="uid://c283lodng61r4" path="res://Demo/Material/UI/keyboard_e.png" id="2_cgluq"]
+[ext_resource type="Texture2D" uid="uid://b73w2lldu5aao" path="res://Demo/Material/UI/crosshair001.png" id="3_gsll7"]
+[ext_resource type="Texture2D" uid="uid://bysjg2m80t1f3" path="res://Demo/Material/UI/mouse_left_outline.png" id="4_flrr3"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tebxh"]
+
+[node name="CameraPivot" type="Node3D"]
+top_level = true
+script = ExtResource("1_xdmex")
+
+[node name="CameraHolder" type="SpringArm3D" parent="."]
+shape = SubResource("SphereShape3D_tebxh")
+spring_length = -0.5
+margin = 0.5
+
+[node name="Camera" type="Camera3D" parent="CameraHolder"]
+current = true
+fov = 70.0
+
+[node name="Interaction_ray" type="RayCast3D" parent="CameraHolder/Camera"]
+unique_name_in_owner = true
+target_position = Vector3(0, 0, -1.5)
+collide_with_areas = true
+collide_with_bodies = false
+debug_shape_thickness = 1
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Interact" type="TextureRect" parent="HUD"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_cgluq")
+stretch_mode = 2
+
+[node name="Normal" type="TextureRect" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_gsll7")
+stretch_mode = 2
+
+[node name="KeyUI" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="KeyUI_Margin" type="MarginContainer" parent="HUD/KeyUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="TorchUI" type="HBoxContainer" parent="HUD/KeyUI/KeyUI_Margin"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="TorchImg" type="TextureRect" parent="HUD/KeyUI/KeyUI_Margin/TorchUI"]
+layout_mode = 2
+texture = ExtResource("4_flrr3")
+stretch_mode = 2
+
+[node name="TorchlightText" type="Label" parent="HUD/KeyUI/KeyUI_Margin/TorchUI"]
+layout_mode = 2
+text = "Torchlight"
