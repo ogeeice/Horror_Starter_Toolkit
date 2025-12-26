@@ -13,7 +13,7 @@ config_version=5
 config/name="Horror Starter Toolkit"
 run/main_scene="uid://dj83v3vq3k7tn"
 config/features=PackedStringArray("4.5", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://b1x2xgpxo3fr3"
 
 [input]
 
