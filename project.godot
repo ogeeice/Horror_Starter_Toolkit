@@ -14,6 +14,7 @@ config/name="Horror Starter Toolkit"
 run/main_scene="uid://dj83v3vq3k7tn"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="uid://b1x2xgpxo3fr3"
+config/tags=PackedStringArray("3d", "horror", "plugin")
 
 [editor_plugins]
 
